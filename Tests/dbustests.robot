@@ -25,16 +25,16 @@ Activate A Window
 			END
 	END
 
-	Sleep    1
-
-	FOR		${w} 	IN 	@{wlist}
-			IF 	"Pulsar" in "${w}[title]"
-				Log		${w}[title]
-				Log		${w}
-				Activate Window 	title=${w}[title]
-				Sleep    1
-			END
-	END
+	# Sleep    1
+	#
+	# FOR		${w} 	IN 	@{wlist}
+	# 		IF 	"Pulsar" in "${w}[title]"
+	# 			Log		${w}[title]
+	# 			Log		${w}
+	# 			Activate Window 	title=${w}[title]
+	# 			Sleep    1
+	# 		END
+	# END
 
 
 

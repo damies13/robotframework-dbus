@@ -1,8 +1,11 @@
 import dbus
 import json
-import os
-import platform
-import requests
+# import os
+# import platform
+# import requests
+
+from .dbusBase import dbusBase
+
 
 from robot.api.deco import keyword, library
 
@@ -12,75 +15,29 @@ class dbusLibrary:
 	"""robotframework-dbus
 
 	A Robot Framework library to help automation of linux desktop applications
+
+	https://unix.stackexchange.com/questions/399753/how-to-get-a-list-of-active-windows-when-using-wayland
+	Sadly, this no longer works on Gnome 41 for security reasons (https://www.reddit.com/r/gnome/comments/pneza1/gdbus_call_for_moving_windows_not_working_in/)
+	Running global.context.unsafe_mode = true in Looking Glass re-enables the functionality, but only temporarily.
+	You can play around with what's possible in GJS using Gnome's 'Looking Glass' debugger: Alt+F2, and run lg
+
 	"""
-	bus = {}
-	screenshot_count = 0
-	de = None
-
-	def __init__(self):
-		self._checkos()
-		self._checkde()
-
-		if 'system' not in self.bus:
-			self.bus['system'] = dbus.SystemBus()
-		if 'session' not in self.bus:
-			self.bus['session'] = dbus.SessionBus()
-
-		if self.de == 'gnome':
-			self._gnome_prereqs()
-
-	def _checkos(self):
-		sys = platform.system()
-		if sys != "Linux":
-			emsg = "{} is not supported by dbusLibrary".format(sys)
-			raise AssertionError(emsg)
-
-	def _checkde(self):
-		xcd = os.environ.get('XDG_CURRENT_DESKTOP').split(':')
-		self.de = xcd[1].lower()
-		# self.de = os.environ.get('DESKTOP_SESSION')
-		if self.de not in ['gnome', 'kde']:
-			emsg = "{} is not yet supported by dbusLibrary".format(self.de)
-			raise AssertionError(emsg)
-
-	def _gnome_prereqs(self):
-		# Install window calls extended (https://github.com/hseliger/window-calls-extended)
-		# To manually install, copy extension.js and metadata.json into a folder by
-		# 	(exactly!! Gnome will not load the extension if the folder name does not match the uuid from the metadata)
-		# 	name of window-calls-extended@hseliger.eu under your ~/.local/share/gnome-shell/extensions folder.
-
-		# >>> os.path.expanduser("~/.local/share/gnome-shell/extensions")
-		# '/home/dave/.local/share/gnome-shell/extensions'
-		# extentionspath = os.path.expanduser("~/.local/share/gnome-shell/extensions")
-		#
-		# wcepath = os.path.join(extentionspath, "window-calls-extended@hseliger.eu")
-		#
-		# if not os.path.exists(wcepath):
-		# 	os.makedirs(wcepath)
-		#
-		# # https://raw.githubusercontent.com/hseliger/window-calls-extended/main/extension.js
-		# baseurl = "https://raw.githubusercontent.com/hseliger/window-calls-extended/main/"
-		# # extension.js
-		# jsfile = os.path.join(wcepath, "extension.js")
-		# self._download_file(baseurl + "extension.js", jsfile)
-		# # metadata.json
-		# jsonfile = os.path.join(wcepath, "metadata.json")
-		# self._download_file(baseurl + "metadata.json", jsonfile)
-		pass
+	dbusBase = dbusBase()
 
 	def _gnome_gjs(self, js):
-		gshell = self.bus['session'].get_object('org.gnome.Shell', '/org/gnome/Shell')
-		eval = gshell.Eval(js, dbus_interface='org.gnome.Shell')
-		return eval
-
-	def _download_file(self, fromurl=None, tofile=None):
-
-		# url = "http://download.thinkbroadband.com/10MB.zip"
-		response = requests.get(fromurl, stream=True)
-
-		with open(tofile, "wb") as handle:
-			for data in tqdm(response.iter_content()):
-				handle.write(data)
+		try:
+			print(js)
+			gshell = self.dbusBase.bus['session'].get_object('org.gnome.Shell', '/org/gnome/Shell')
+			print(gshell)
+			eval = gshell.Eval(js, dbus_interface='org.gnome.Shell')
+			print(eval)
+			return eval
+		except AssertionError as e:
+			print(e)
+			raise AssertionError(e)
+		except Exception as e:
+			print(e)
+			raise AssertionError(e)
 
 
 	@keyword('Call dbus Method')
@@ -96,7 +53,7 @@ class dbusLibrary:
 
 		"""
 		try:
-			proxy = self.bus[bus].get_object(busname, objectpath)
+			proxy = self.dbusBase.bus[bus].get_object(busname, objectpath)
 			strmethod = "proxy.{}(, dbus_interface='{}')".format(method, interface)
 			result = eval(strmethod)
 			print(result)
@@ -133,8 +90,9 @@ class dbusLibrary:
 
 		"""
 		try:
-			if self.de == 'gnome':
-				# gshell = self.bus['session'].get_object('org.gnome.Shell', '/org/gnome/Shell')
+			# print("dbusBase.de:", dbusBase.de())
+			if self.dbusBase.de == 'gnome':
+				# gshell = self.dbusBase.bus['session'].get_object('org.gnome.Shell', '/org/gnome/Shell')
 				# eval = gshell.Eval("global.get_window_actors().map(a=>a.meta_window).map(w=>({class: w.get_wm_class(), class_instance: w.get_wm_class_instance(), pid: w.get_pid(), id: w.get_id(), maximized: w.get_maximized(), focus: w.has_focus(), title: w.get_title()}))", dbus_interface='org.gnome.Shell')
 				# print("eval:",eval)
 				# https://discourse.gnome.org/t/how-to-get-get-windows-width-height-x-coordinate-y-coordinate-activeworkspace-and-isviewable/10881
@@ -192,11 +150,11 @@ class dbusLibrary:
 													focus: a.meta_window.has_focus(),
 													title: a.meta_window.get_title(),
 													}))""")
-				# print("eval:",eval)
+				print("eval:",eval)
 				data = json.loads(eval[1])
 				return data
 
-			if self.de == 'kde':
+			if dbusBase.de == 'kde':
 				raise AssertionError("not implimented")
 
 		except AssertionError as e:
@@ -415,8 +373,8 @@ class dbusLibrary:
 				filename = "{}_{}".format(filename_prefix, self.screenshot_count)
 				print("filename:",filename)
 
-			if self.de == 'gnome':
-				gshellscrsht = self.bus['session'].get_object('org.gnome.Shell', '/org/gnome/Shell/Screenshot')
+			if dbusBase.de == 'gnome':
+				gshellscrsht = self.dbusBase.bus['session'].get_object('org.gnome.Shell', '/org/gnome/Shell/Screenshot')
 				if mode == "Full Screen":
 					scrsht = gshellscrsht.Screenshot(include_cursor, flash, filename, dbus_interface='org.gnome.Shell.Screenshot')
 				elif mode == "Active Window":
@@ -427,7 +385,7 @@ class dbusLibrary:
 					emsg = "Invalid Mode: '{}', valid modes are Full Screen, Active Window or Area".format(mode)
 					raise AssertionError(emsg)
 
-			if self.de == 'kde':
+			if dbusBase.de == 'kde':
 				raise AssertionError("not implimented")
 
 			print("scrsht:",scrsht)
