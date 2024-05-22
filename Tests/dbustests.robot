@@ -37,6 +37,14 @@ Activate A Window
 	# END
 
 
+Take Screenshots
+
+	Take Screenshot
+	Take Screenshot 	mode=Active Window
+
+	Take Screenshot 	mode=Area 		area=[0,0,200,100]
+
+
 
 
 #

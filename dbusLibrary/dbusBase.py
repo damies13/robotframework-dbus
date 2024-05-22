@@ -7,7 +7,6 @@ import requests
 class dbusBase:
 
 	bus = {}
-	screenshot_count = 0
 	de = None
 
 	def __init__(self):
