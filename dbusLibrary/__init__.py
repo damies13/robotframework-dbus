@@ -1,6 +1,6 @@
 
 from .dbusBase import dbusBase
-from .dbudGnome import dbudGnome
+from .dbusGnome import dbusGnome
 
 
 from robot.api.deco import keyword, library
@@ -19,7 +19,7 @@ class dbusLibrary:
 
 	"""
 	dbusBase = dbusBase()
-	dbudGnome = dbudGnome()
+	dbusGnome = dbusGnome()
 
 
 	@keyword('Call dbus Method')
@@ -53,7 +53,7 @@ class dbusLibrary:
 
 		"""
 		try:
-			eval = self.dbudGnome._gnome_gjs(js)
+			eval = self.dbusGnome._gnome_gjs(js)
 			print("eval:",eval)
 			data = json.loads(eval[1])
 			return data
@@ -73,7 +73,7 @@ class dbusLibrary:
 		"""
 		try:
 			wl = {}
-			wl['gnome'] = self.dbudGnome.get_window_list
+			wl['gnome'] = self.dbusGnome.get_window_list
 			# wl['kde'] = raise AssertionError("not implimented")
 
 			data = wl[self.dbusBase.de]()
@@ -93,7 +93,7 @@ class dbusLibrary:
 		"""
 		try:
 			fn = {}
-			fn['gnome'] = self.dbudGnome.get_active_window
+			fn['gnome'] = self.dbusGnome.get_active_window
 			# fn['kde'] = raise AssertionError("not implimented")
 
 			data = fn[self.dbusBase.de]()
@@ -115,7 +115,7 @@ class dbusLibrary:
 		"""
 		try:
 			fn = {}
-			fn['gnome'] = self.dbudGnome.activate_window
+			fn['gnome'] = self.dbusGnome.activate_window
 			# fn['kde'] = raise AssertionError("not implimented")
 
 			data = fn[self.dbusBase.de](window, title)
@@ -213,7 +213,7 @@ class dbusLibrary:
 		"""
 		try:
 			fn = {}
-			fn['gnome'] = self.dbudGnome.take_screenshot
+			fn['gnome'] = self.dbusGnome.take_screenshot
 			# fn['kde'] = raise AssertionError("not implimented")
 
 			data = fn[self.dbusBase.de](include_cursor, flash, mode, area, filename, filename_prefix)

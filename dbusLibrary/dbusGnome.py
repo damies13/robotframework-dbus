@@ -7,10 +7,18 @@ from robot.api import logger
 from .dbusBase import dbusBase
 
 
-class dbudGnome:
+class dbusGnome:
 
 	screenshot_count = 0
 	dbusBase = dbusBase()
+
+	# need to get Gnome version
+	#
+	# Bus name:			org.gnome.Shell
+	# Object Path:		/org/gnome/Shell
+	# Interface:		org.gnome.Shell
+	# Properties: 		ShellVersion
+
 
 	def _gnome_gjs(self, js):
 		try:
@@ -37,7 +45,7 @@ class dbudGnome:
 			# print("eval:",eval)
 			# https://discourse.gnome.org/t/how-to-get-get-windows-width-height-x-coordinate-y-coordinate-activeworkspace-and-isviewable/10881
 
-			# eval = self.dbudGnome._gnome_gjs("""global.get_window_actors()
+			# eval = self.dbusGnome._gnome_gjs("""global.get_window_actors()
 			# 								.map(a=>a.meta_window)
 			# 								.map(w=>({
 			# 									class: w.get_wm_class(),
@@ -50,7 +58,7 @@ class dbudGnome:
 			# 									maximized: w.get_maximized(),
 			# 									focus: w.has_focus(),
 			# 									title: w.get_title()}))""")
-			# eval = self.dbudGnome._gnome_gjs("""global.get_window_actors()
+			# eval = self.dbusGnome._gnome_gjs("""global.get_window_actors()
 			# 								.map(a=>a.meta_window)
 			# 								.map(w=>({
 			# 									class: w.get_wm_class(),
@@ -61,7 +69,7 @@ class dbudGnome:
 			# 									title: w.get_title(),
 			# 									w: w
 			# 									}))""")
-			# eval = self.dbudGnome._gnome_gjs("""global.get_window_actors()
+			# eval = self.dbusGnome._gnome_gjs("""global.get_window_actors()
 			# 								.map(a=>({
 			# 									class: a.meta_window.get_wm_class(),
 			# 									class_instance: a.meta_window.get_wm_class_instance(),
