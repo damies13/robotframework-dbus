@@ -226,8 +226,127 @@ class dbusLibrary:
 			emsg = "Unable get window list"
 			raise AssertionError(emsg)
 
+		# Auto It keywords for consideration:
+		#
+		# Auto It Set Option - Auto It specific
+		# Block Input - good ides maybe future version
+		# CD Tray - good ides maybe future version
+		# Clip Get - good ides maybe future version
+		# Clip Put - good ides maybe future version
 
+		# Control Click - A windows control (button maybe?)
+		# Control Command
+		# Control Disable
+		# Control Enable
+		# Control Focus
+		# Control Get Focus
+		# Control Get Handle
+		# Control Get Pos Height
+		# Control Get Pos Width
+		# Control Get Pos X
+		# Control Get Pos Y
+		# Control Get Text
+		# Control Hide
+		# Control List View
+		# Control Move
+		# Control Send
+		# Control Set Text
+		# Control Show
+		# Control Tree View
 
+		# Drive Map Add - network drives not sure about this
+		# Drive Map Del
+		# Drive Map Get
+
+		# Get Active Window Image - done - screenshot active window
+
+		# Get Auto It Version - Auto It specific
+
+		# Get Screen Image - done - screenshot full screen
+
+		# Get Version - not sure?
+
+		# Ini Delete - ini files, easy to impliment not sure it's needed?
+		# Ini Read
+		# Ini Write
+
+		# Init - Auto It specific
+		# Is Admin - Windows OS specific
+
+		# Mouse Click - We'll need all the same sorts of mouse handeling
+		# Mouse Click Drag
+		# Mouse Down
+		# Mouse Get Cursor
+		# Mouse Get Pos X
+		# Mouse Get Pos Y
+		# Mouse Move
+		# Mouse Up
+		# Mouse Wheel
+
+		# Opt - Auto It specific
+
+		# Pixel Checksum - these Pixel functions could be useful, but probably a candidate for a later version
+		# Pixel Get Color
+		# Pixel Search
+
+		# Process Close - Process keywords use ProcessLibrary or OperatingSystemLibrary
+		# Process Exists
+		# Process Set Priority
+		# Process Wait
+		# Process Wait Close
+
+		# Reg Delete Key - Windows OS specific, Linux doesn't have a system registry
+		# Reg Delete Val
+		# Reg Enum Key
+		# Reg Enum Val
+		# Reg Read
+		# Reg Write
+
+		# Run - Process keywords use ProcessLibrary or OperatingSystemLibrary
+		# Run As Set
+		# Run Wait
+
+		# Send - need this - Sends simulated keystrokes to the active window.
+
+		# Shutdown - Shuts down the system. - OperatingSystemLibrary?
+
+		# Statusbar Get Text - Retrieves the text from a standard status bar control.
+		# Tool Tip - Creates a tooltip anywhere on the screen.
+
+		# Wait For Active Window - Wait up to TimeOut seconds for the window with the given WindowTitle and optional WindowText to appear. Force this to be the active window after it appears.  Optionally do a full screen capture on failure.
+		# Win Activate - Activates (gives focus to) a window.
+		# Win Active - Checks to see if a specified window exists and is currently active.
+		# Win Close - Closes a window.
+		# Win Exists - Checks to see if a specified window exists.
+		# Win Get Caret Pos X - Returns the coordinates of the caret in the foreground window.
+		# Win Get Caret Pos Y - Returns the coordinates of the caret in the foreground window.
+		# Win Get Class List - Retrieves the classes from a window.
+		# Win Get Client Size Height - Retrieves the size of a given window's client area.
+		# Win Get Client Size Width - Retrieves the size of a given window's client area.
+		# Win Get Handle - Retrieves the internal handle of a window.
+		# Win Get Pos Height - Retrieves the position and size of a given window.
+		# Win Get Pos Width - Retrieves the position and size of a given window.
+		# Win Get Pos X - Retrieves the position and size of a given window.
+		# Win Get Pos Y - Retrieves the position and size of a given window.
+		# Win Get Process - Retrieves the Process ID (PID) associated with a window.
+		# Win Get State - Retrieves the state of a given window.
+		# Win Get Text - Retrieves the text from a window.
+		# Win Get Title - Retrieves the full title from a window.
+		# Win Kill - Forces a window to close.
+		# Win List - Retrieves a list of windows.
+		# Win Menu Select Item - Invokes a menu item of a window.
+		# Win Minimize All - Minimizes all windows.
+		# Win Minimize All Undo - Undoes a previous WinMinimizeAll function.
+		# Win Move - Moves and/or resizes a window.
+		# Win Set On Top - Change a window's "Always On Top" attribute.
+		# Win Set State - Shows, hides, minimizes, maximizes, or restores a window.
+		# Win Set Title - Changes the title of a window.
+		# Win Set Trans - Sets the transparency of a window.
+		# Win Wait - Pauses execution of the script until the requested window exists.
+		# Win Wait Active - Pauses execution of the script until the requested window is active.
+		# Win Wait Close -Pauses execution of the script until the requested window does not exist.
+		# Win Wait Not Active - Pauses execution of the script until the requested window is not active.
+		#
 
 
 
