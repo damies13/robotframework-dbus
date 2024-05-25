@@ -1,23 +1,84 @@
-
+import dbus
 import json
 import os
 
 from robot.api import logger
 
+
 from .dbusBase import dbusBase
+from .osio import osio
 
 
 class dbusGnome:
+	"""
+	https://unix.stackexchange.com/questions/399753/how-to-get-a-list-of-active-windows-when-using-wayland
+	Sadly, this no longer works on Gnome 41 for security reasons (https://www.reddit.com/r/gnome/comments/pneza1/gdbus_call_for_moving_windows_not_working_in/)
+	Running global.context.unsafe_mode = true in Looking Glass re-enables the functionality, but only temporarily.
+	You can play around with what's possible in GJS using Gnome's 'Looking Glass' debugger: Alt+F2, and run lg
 
+	- https://askubuntu.com/questions/1412130/dbus-calls-to-gnome-shell-dont-work-under-ubuntu-22-04
+
+	"""
 	screenshot_count = 0
 	dbusBase = dbusBase()
+	osio = osio()
+	unsafe_mode = False
 
-	# need to get Gnome version
-	#
-	# Bus name:			org.gnome.Shell
-	# Object Path:		/org/gnome/Shell
-	# Interface:		org.gnome.Shell
-	# Properties: 		ShellVersion
+	def __init__(self):
+		shellver = self._get_gnome_version()
+		if float(shellver) >= 41.0 and not self.unsafe_mode:
+			self._enable_gnome_unsafe_mode()
+
+	def _enable_gnome_unsafe_mode(self):
+		logger.info("Need Gnome unsafe_mode")
+		logger.console("Need Gnome unsafe_mode")
+		# self._gnome_gjs("global.context.unsafe_mode = true")
+
+		# open 'Looking Glass' debugger: Alt+F2, and run lg
+		# self.osio.press_combination("alt", "f2")
+
+		# input
+
+
+
+		self.unsafe_mode = True
+		# logger.console("Enabled Gnome unsafe_mode")
+
+
+	def _get_gnome_version(self):
+		# need to get Gnome version
+		#
+		# Bus name:			org.gnome.Shell
+		# Object Path:		/org/gnome/Shell
+		# Interface:		org.gnome.Shell
+		# Properties: 		ShellVersion
+		try:
+			gshell = self.dbusBase.bus['session'].get_object('org.gnome.Shell', '/org/gnome/Shell')
+			# gshell = self.dbusBase.bus['session'].get('org.gnome.Shell', '/org/gnome/Shell')
+			# print(gshell)
+			# eval = gshell.ShellVersion(dbus_interface='org.gnome.Shell')
+			# iface = self.dbusBase.bus['system'].Interface(dev, 'org.gnome.Shell')
+			# props = iface.GetAllProperties()
+			# logger.info("props: {}".format(props))
+
+			properties_manager = dbus.Interface(gshell, 'org.freedesktop.DBus.Properties')
+			eval = properties_manager.Get('org.gnome.Shell', 'ShellVersion')
+
+			# eval = gshell.ShellVersion
+
+			# print(eval)
+			# logger.info("Gnome ShellVersion: {}".format(eval))
+			# logger.console("Gnome ShellVersion: {}".format(eval))
+			return eval
+		except AssertionError as e:
+			print(e)
+			logger.console("AssertionError: {}".format(e))
+			raise AssertionError(e)
+		except Exception as e:
+			print(e)
+			logger.console("Exception: {}".format(e))
+			raise AssertionError(e)
+
 
 
 	def _gnome_gjs(self, js):

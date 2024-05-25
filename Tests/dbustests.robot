@@ -45,6 +45,16 @@ Take Screenshots
 	Take Screenshot 	mode=Area 		area=[0,0,200,100]
 
 
+Type Some Things
 
+	${wlist}= 	Get Window List
+	Log 	${wlist}
+	FOR		${w} 	IN 	@{wlist}
+			IF 	"Untitled Document" in "${w}[title]"
+				Activate Window 	${w}
+			END
+	END
+
+	Type 		Something
 
 #

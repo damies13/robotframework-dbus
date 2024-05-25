@@ -1,7 +1,7 @@
 
 from .dbusBase import dbusBase
 from .dbusGnome import dbusGnome
-
+from .osio import osio
 
 from robot.api.deco import keyword, library
 
@@ -12,14 +12,20 @@ class dbusLibrary:
 
 	A Robot Framework library to help automation of linux desktop applications
 
-	https://unix.stackexchange.com/questions/399753/how-to-get-a-list-of-active-windows-when-using-wayland
-	Sadly, this no longer works on Gnome 41 for security reasons (https://www.reddit.com/r/gnome/comments/pneza1/gdbus_call_for_moving_windows_not_working_in/)
-	Running global.context.unsafe_mode = true in Looking Glass re-enables the functionality, but only temporarily.
-	You can play around with what's possible in GJS using Gnome's 'Looking Glass' debugger: Alt+F2, and run lg
-
 	"""
 	dbusBase = dbusBase()
-	dbusGnome = dbusGnome()
+	# dbusGnome = dbusGnome()
+	osio = osio()
+
+	modules = {}
+
+	def __init__(self):
+		modulenames = {}
+		modulenames['gnome'] = dbusGnome
+		# modulenames['kde'] = dbusKDE
+
+		# load Desktop Environment module
+		self.modules[self.dbusBase.de] = modulenames[self.dbusBase.de]()
 
 
 	@keyword('Call dbus Method')
@@ -53,7 +59,8 @@ class dbusLibrary:
 
 		"""
 		try:
-			eval = self.dbusGnome._gnome_gjs(js)
+			# eval = self.dbusGnome._gnome_gjs(js)
+			self.modules[self.dbusBase.de]._gnome_gjs(js)
 			print("eval:",eval)
 			data = json.loads(eval[1])
 			return data
@@ -73,7 +80,7 @@ class dbusLibrary:
 		"""
 		try:
 			wl = {}
-			wl['gnome'] = self.dbusGnome.get_window_list
+			wl['gnome'] = self.modules[self.dbusBase.de].get_window_list
 			# wl['kde'] = raise AssertionError("not implimented")
 
 			data = wl[self.dbusBase.de]()
@@ -93,7 +100,7 @@ class dbusLibrary:
 		"""
 		try:
 			fn = {}
-			fn['gnome'] = self.dbusGnome.get_active_window
+			fn['gnome'] = self.modules[self.dbusBase.de].get_active_window
 			# fn['kde'] = raise AssertionError("not implimented")
 
 			data = fn[self.dbusBase.de]()
@@ -115,7 +122,7 @@ class dbusLibrary:
 		"""
 		try:
 			fn = {}
-			fn['gnome'] = self.dbusGnome.activate_window
+			fn['gnome'] = self.modules[self.dbusBase.de].activate_window
 			# fn['kde'] = raise AssertionError("not implimented")
 
 			data = fn[self.dbusBase.de](window, title)
@@ -198,7 +205,14 @@ class dbusLibrary:
 			`instring`: 	The string to type
 			`interval`: 	Time in miliseconds between keys (default 100)
 		"""
-		pass
+		try:
+			self.osio.type(instring)
+		except AssertionError as e:
+			raise AssertionError(e)
+		except Exception as e:
+			print(e)
+			emsg = "Unable to Type '{}': {}".format(instring, e)
+			raise AssertionError(emsg)
 
 
 	@keyword('Take Screenshot')
@@ -213,7 +227,7 @@ class dbusLibrary:
 		"""
 		try:
 			fn = {}
-			fn['gnome'] = self.dbusGnome.take_screenshot
+			fn['gnome'] = self.modules[self.dbusBase.de].take_screenshot
 			# fn['kde'] = raise AssertionError("not implimented")
 
 			data = fn[self.dbusBase.de](include_cursor, flash, mode, area, filename, filename_prefix)
@@ -223,7 +237,7 @@ class dbusLibrary:
 			raise AssertionError(e)
 		except Exception as e:
 			print(e)
-			emsg = "Unable get window list"
+			emsg = "Unable Take Screenshot"
 			raise AssertionError(emsg)
 
 		# Auto It keywords for consideration:

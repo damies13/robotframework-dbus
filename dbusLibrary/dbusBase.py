@@ -58,7 +58,7 @@ class dbusBase:
 
 	def _checkde(self):
 		xcd = os.environ.get('XDG_CURRENT_DESKTOP').split(':')
-		self.de = xcd[1].lower()
+		self.de = xcd[-1].lower()
 		# self.de = os.environ.get('DESKTOP_SESSION')
 		if self.de not in ['gnome', 'kde']:
 			emsg = "{} is not yet supported by dbusLibrary".format(self.de)
