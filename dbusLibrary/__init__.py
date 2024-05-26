@@ -214,6 +214,20 @@ class dbusLibrary:
 			emsg = "Unable to Type '{}': {}".format(instring, e)
 			raise AssertionError(emsg)
 
+	@keyword('Press Key Combination')
+	def press_combination(self, *keys):
+		"""Type a string
+			`instring`: 	The string to type
+			`interval`: 	Time in miliseconds between keys (default 100)
+		"""
+		try:
+			self.osio.press_combination(*keys)
+		except AssertionError as e:
+			raise AssertionError(e)
+		except Exception as e:
+			print(e)
+			emsg = "Unable to Press Key Combination '{}': {}".format(keys, e)
+			raise AssertionError(emsg)
 
 	@keyword('Take Screenshot')
 	def take_screenshot(self, include_cursor=True, flash=False, mode="Full Screen", area=[0,0,0,0], filename=None, filename_prefix="dbus_screenshot"):

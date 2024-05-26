@@ -56,5 +56,12 @@ Type Some Things
 	END
 
 	Type 		Something
+	Press Key Combination 	shift 	a
+	Press Key Combination 	shift 	b
+	Press Key Combination 	shift 	c
+
+	Press Key Combination 	control 	s
+	Press Key Combination 	escape
+	
 
 #
