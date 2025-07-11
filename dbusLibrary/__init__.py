@@ -1,3 +1,4 @@
+import json
 
 from .dbusBase import dbusBase
 from .dbusGnome import dbusGnome
