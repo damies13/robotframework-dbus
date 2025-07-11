@@ -6,7 +6,7 @@ from robot.api import logger
 
 
 from .dbusBase import dbusBase
-from .osio import osio
+# from .osio import osio
 
 
 class dbusGnome:
@@ -21,7 +21,7 @@ class dbusGnome:
 	"""
 	screenshot_count = 0
 	dbusBase = dbusBase()
-	osio = osio()
+	# osio = osio()
 	unsafe_mode = False
 
 	def __init__(self):
@@ -37,11 +37,11 @@ class dbusGnome:
 		# open 'Looking Glass' debugger: Alt+F2, and run lg
 		# self.osio.press_combination("alt", "f2")
 
-		# input
+		# input "global.context.unsafe_mode = true"
 
 
 
-		self.unsafe_mode = True
+		# self.unsafe_mode = True
 		# logger.console("Enabled Gnome unsafe_mode")
 
 

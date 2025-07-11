@@ -2,7 +2,7 @@ import json
 
 from .dbusBase import dbusBase
 from .dbusGnome import dbusGnome
-from .osio import osio
+# from .osio import osio
 
 from robot.api.deco import keyword, library
 
@@ -16,7 +16,7 @@ class dbusLibrary:
 	"""
 	dbusBase = dbusBase()
 	# dbusGnome = dbusGnome()
-	osio = osio()
+	# osio = osio()
 
 	modules = {}
 
@@ -207,7 +207,8 @@ class dbusLibrary:
 			`interval`: 	Time in miliseconds between keys (default 100)
 		"""
 		try:
-			self.osio.type(instring)
+			# self.osio.type(instring)
+			raise NotImplemented
 		except AssertionError as e:
 			raise AssertionError(e)
 		except Exception as e:
@@ -222,7 +223,8 @@ class dbusLibrary:
 			`interval`: 	Time in miliseconds between keys (default 100)
 		"""
 		try:
-			self.osio.press_combination(*keys)
+			# self.osio.press_combination(*keys)
+			raise NotImplemented
 		except AssertionError as e:
 			raise AssertionError(e)
 		except Exception as e:

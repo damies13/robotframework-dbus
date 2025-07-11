@@ -13,7 +13,7 @@ setuptools.setup(
 	long_description_content_type="text/markdown",
 	url="https://github.com/damies13/robotframework-dbus",
 	packages=setuptools.find_packages(exclude=["build/*"]),
-	install_requires=['dbus', 'pyautogui>=0.9.30', 'robotframework>=2.8'],
+	install_requires=['dbus-python', 'requests', 'robotframework>=5'],
 	classifiers=[
 		"Development Status :: 4 - Beta",
 		"Framework :: Robot Framework",
