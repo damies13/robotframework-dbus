@@ -8,3 +8,18 @@ A road block for now, keyboard and mouse control:
 - I also looked for a way to do keyboard and mouse control via dbus or GJS/Kwin but no luck so far
 
 Need to keep exploring for possible solutions.
+
+
+## Gnome 41+
+
+    Gnome 41+ and higher needs Gnome unsafe_mode Enabled 
+
+    To enable Gnome unsafe_mode:
+
+	- open 'Looking Glass' debugger: 
+      - press Alt+F2
+      - type "lg"
+      - press enter
+	- type "global.context.unsafe_mode = true" into Looking Glass
+	- press ESC to close Looking Glass
+

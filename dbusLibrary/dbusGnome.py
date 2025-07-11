@@ -39,9 +39,10 @@ class dbusGnome:
 
 		# input "global.context.unsafe_mode = true"
 
-
-
 		# self.unsafe_mode = True
+
+		# self.osio.press_combination("esc")
+
 		# logger.console("Enabled Gnome unsafe_mode")
 
 
