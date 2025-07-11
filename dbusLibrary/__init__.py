@@ -2,7 +2,6 @@ import json
 
 from .dbusBase import dbusBase
 from .dbusGnome import dbusGnome
-# from .osio import osio
 
 from robot.api.deco import keyword, library
 
@@ -15,8 +14,6 @@ class dbusLibrary:
 
 	"""
 	dbusBase = dbusBase()
-	# dbusGnome = dbusGnome()
-	# osio = osio()
 
 	modules = {}
 
@@ -208,7 +205,8 @@ class dbusLibrary:
 		"""
 		try:
 			# self.osio.type(instring)
-			raise NotImplemented
+			emsg = "Keyword Not Implemented Yet"
+			raise AssertionError(emsg)
 		except AssertionError as e:
 			raise AssertionError(e)
 		except Exception as e:
@@ -224,7 +222,8 @@ class dbusLibrary:
 		"""
 		try:
 			# self.osio.press_combination(*keys)
-			raise NotImplemented
+			emsg = "Keyword Not Implemented Yet"
+			raise AssertionError(emsg)
 		except AssertionError as e:
 			raise AssertionError(e)
 		except Exception as e:

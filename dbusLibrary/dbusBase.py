@@ -69,6 +69,6 @@ class dbusBase:
 		# url = "http://download.thinkbroadband.com/10MB.zip"
 		response = requests.get(fromurl, stream=True)
 
-		with open(tofile, "wb") as handle:
-			for data in tqdm(response.iter_content()):
-				handle.write(data)
+		# with open(tofile, "wb") as handle:
+		# 	for data in tqdm(response.iter_content()):
+		# 		handle.write(data)

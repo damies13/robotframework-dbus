@@ -6,7 +6,6 @@ from robot.api import logger
 
 
 from .dbusBase import dbusBase
-# from .osio import osio
 
 
 class dbusGnome:
@@ -21,7 +20,6 @@ class dbusGnome:
 	"""
 	screenshot_count = 0
 	dbusBase = dbusBase()
-	# osio = osio()
 	unsafe_mode = False
 
 	def __init__(self):
